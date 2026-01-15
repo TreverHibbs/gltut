@@ -35,3 +35,6 @@ In case you prefer Java to C++, Giuseppe Barbieri [created a Java port here](htt
 ### Exception in thread "main" java.lang.NoClassDefFoundError: org/w3c/dom/events/CustomEvent
 Some versions of `fop` will not work correctly.
 Installing `2.6` from here https://xmlgraphics.apache.org/fop/download.html fixes it.
+
+## Personal Notes
+To generate compile_commands.json run cmake command with Ninja target
