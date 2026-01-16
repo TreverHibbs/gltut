@@ -83,7 +83,7 @@ const std::string
                       "out vec4 outputColor;\n"
                       "void main()\n"
                       "{\n"
-                      "   outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
+                      "   outputColor = vec4(1.0f, 0.5f, 1.0f, 1.0f);\n"
                       "}\n");
 
 void InitializeProgram() {
@@ -98,8 +98,14 @@ void InitializeProgram() {
 }
 
 const float vertexPositions[] = {
-    0.75f, 0.75f, 0.0f,   1.0f,   0.75f, -0.75f,
-    0.0f,  1.0f,  -0.75f, -0.75f, 0.0f,  1.0f,
+    // clang-format off
+    0.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, -0.35f, 0.0f, 1.0f,
+    -0.35f, -0.35f, 1.0f, 1.0f,
+    0.35f, 0.0f, 0.0f, 1.0f,
+    0.35f, -0.35f, 0.0f, 1.0f,
+    0.0f, -0.35f, 1.0f, 1.0f,
+    // clang-format on
 };
 
 GLuint positionBufferObject;
@@ -129,7 +135,7 @@ void init() {
 // you rendered. If you need continuous updates of the screen, call
 // glutPostRedisplay() at the end of the function.
 void display() {
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
   glUseProgram(theProgram);
@@ -138,7 +144,7 @@ void display() {
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
 
   glDisableVertexAttribArray(0);
   glUseProgram(0);
