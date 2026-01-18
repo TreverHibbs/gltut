@@ -6,6 +6,7 @@
 #include <glload/gl_3_3.h>
 #include <GL/freeglut.h>
 #include "../framework/framework.h"
+#include "glload/_int_gl_2_0.h"
 
 #define ARRAY_COUNT(array)                                                     \
   3(sizeof(array) / (sizeof(array[0]) * (sizeof(array) != sizeof(void *) ||    \
@@ -23,6 +24,12 @@ void InitializeProgram() {
       Framework::LoadShader(GL_FRAGMENT_SHADER, "FragPosition.frag"));
 
   theProgram = Framework::CreateProgram(shaderList);
+
+  glUseProgram(theProgram);
+  int windowSizeLoc = glGetUniformLocation(theProgram, "windowSize");
+  float windowSize[2] = {200.0f, 500.0f};
+  glUniform2f(windowSizeLoc, windowSize[0], windowSize[1]);
+  glUseProgram(0);
 }
 
 const float vertexAndColorData[] = {
@@ -86,7 +93,14 @@ void display() {
 // Called whenever the window is resized. The new window size is given, in
 // pixels. This is an opportunity to call glViewport or glScissor to keep up
 // with the change in size.
-void reshape(int w, int h) { glViewport(0, 0, (GLsizei)w, (GLsizei)h); }
+void reshape(int w, int h) {
+  glUseProgram(theProgram);
+  int windowSizeLoc = glGetUniformLocation(theProgram, "windowSize");
+  int windowSize[2] = {w, h};
+  glUniform2f(windowSizeLoc, windowSize[0], windowSize[1]);
+  glUseProgram(0);
+  glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+}
 
 // Called whenever a key on the keyboard was pressed.
 // The key is given by the ''key'' parameter, which is in ASCII.
