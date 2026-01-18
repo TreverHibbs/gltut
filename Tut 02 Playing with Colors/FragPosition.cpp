@@ -25,9 +25,15 @@ void InitializeProgram() {
   theProgram = Framework::CreateProgram(shaderList);
 }
 
-const float vertexData[] = {
-    0.75f, 0.75f, 0.0f,   1.0f,   0.75f, -0.75f,
-    0.0f,  1.0f,  -0.75f, -0.75f, 0.0f,  1.0f,
+const float vertexAndColorData[] = {
+    // clang-format off
+    0.75f, 0.75f, 0.0f, 1.0f,
+    0.75f, -0.75f, 0.0f, 1.0f,
+    -0.35f, -0.75f, 0.0f, 1.0f,
+    1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, 0.0f, 1.0f, 1.0f,
+    // clang-format on
 };
 
 GLuint vertexBufferObject;
@@ -37,7 +43,8 @@ void InitializeVertexBuffer() {
   glGenBuffers(1, &vertexBufferObject);
 
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertexAndColorData), vertexAndColorData,
+               GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -63,11 +70,14 @@ void display() {
 
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
   glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void *)48);
 
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
   glUseProgram(0);
 
   glutSwapBuffers();
